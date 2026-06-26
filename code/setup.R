@@ -1,7 +1,7 @@
 rm(list = ls())
 palette("Okabe-Ito")
 
-required_pkgs <- c("tidyverse", "readr", "dplyr", "haven", "fixest", "modelsummary", "stargazer", "tinytable") # nolint
+required_pkgs <- c("tidyverse", "readr", "dplyr", "haven", "fixest", "modelsummary", "tinytable") # nolint
 missing_pkgs <- required_pkgs[!(required_pkgs %in% installed.packages()[, "Package"])] # nolint
 if (length(missing_pkgs) > 0) {
   message("Installing missing R packages: ", paste(missing_pkgs, collapse = ", ")) # nolint
