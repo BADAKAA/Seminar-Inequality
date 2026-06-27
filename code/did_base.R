@@ -28,11 +28,11 @@ coef_map <- c(
   "int_aioe_z" = "AI Exposure $\\times$ Post",
   "int_caioe_z" = "AI Exposure $\\times$ Post",
   "int_theta_z" = "Complementarity $\\times$ Post",
-  "int_aioe_compl_post" = "Triple DiD",
-  "int_aioe_theta_post" = "Triple DiD",
+  "int_aioe_compl_post" = "Triple Interaction",
+  "int_aioe_theta_post" = "Triple Interaction",
   "age" = "Age",
   "age_sq" = "Age$^2$",
-  "I(pgausb)" = "Type of education",
+  "pgausb" = "Type of education",
   "pgerwzeit" = "Firm tenure",
   "part_time" = "Part-time employment"
 )
