@@ -63,6 +63,8 @@ table_notes <- list(
     "AI Occupational Exposure (AIOE) follows \\cite{felten2021occupational}.",
     "Low-Complementarity is a binary indicator for below-median AI complementarity.", # nolint
     "The triple interaction term (AIOE $\\times$ Low-Complementarity $\\times$ Post) is the coefficient of interest ($\\hat{\\beta}_3$).", # nolint
+    "Type of education (factor variable) omitted from the table for brevity", # nolint,
+    "Main effects absorbed by individual fixed effects where time-invariant.",
     sep = "\\\\\n"
   ), paste(
     "Standard errors clustered at the ISCO-08 level.",
@@ -90,6 +92,7 @@ run_regression <- function(i) {
   label <- table_labels[i]
   controls <- did_controls[[i]]
   x <- independent_vars[[i]]
+  notes <- table_notes[[i]]
   aioe_vars <- x[[1]]   # nolint
   caioe_vars <- x[[2]]  # nolint
   triple_vars <- x[[3]] # nolint
@@ -121,7 +124,7 @@ run_regression <- function(i) {
     fmt = 4,
     escape = FALSE,
     title = caption,
-    notes = table_notes,
+    notes = notes,
     output = path
   )
   add_table_label(path, label)
