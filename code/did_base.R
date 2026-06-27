@@ -1,3 +1,7 @@
+# ============================================================================ #
+# ------------------------- DID SETUP AND UTILITIES -------------------------- #
+# ============================================================================ #
+
 library(dplyr)
 source("code/utils.R")
 
@@ -54,39 +58,43 @@ remove_unemployed <- function(dat) {
   dat
 }
 
-load_did_data <- function() {
+load_did_data <- function(fix_exposure = TRUE) {
   message("Loading SOEP data ...")
   soep <- load_soep() |>
-    filter(pgemplst %in% allowed_pgemplst) |>
-    filter(syear >= start_year & syear <= end_year)
-  message("Calculating Baseline ISCO-08 ...")
-  soep_baseline <- soep |>
-    rename(dynamic_isco08 = isco08)
+  filter(pgemplst %in% allowed_pgemplst) |>
+  filter(syear >= start_year & syear <= end_year)
+  if (fix_exposure) {
+    message("Calculating Baseline ISCO-08 ...")
+    soep_baseline <- soep |>
+      rename(dynamic_isco08 = isco08)
 
-  baseline_isco <- soep_baseline |>
-    filter(syear <= treatment_year) |> # avoid endogeneity (self-selection)
-    filter(syear >= treatment_year - missing_year_tolerance) |>
-    group_by(pid) |>
-    filter(all(pgemplst %in% c(1, 2))) |>
-    filter(!is.na(dynamic_isco08)) |>
-    arrange(abs(syear - treatment_year), .by_group = TRUE) |>
-    slice(1) |>
-    ungroup() |>
-    select(pid, dynamic_isco08) |>
-    rename(baseline_isco08 = dynamic_isco08)
+    baseline_isco <- soep_baseline |>
+      filter(syear <= treatment_year) |> # avoid endogeneity (self-selection)
+      filter(syear >= treatment_year - missing_year_tolerance) |>
+      group_by(pid) |>
+      filter(all(pgemplst %in% c(1, 2))) |>
+      filter(!is.na(dynamic_isco08)) |>
+      arrange(abs(syear - treatment_year), .by_group = TRUE) |>
+      slice(1) |>
+      ungroup() |>
+      select(pid, dynamic_isco08) |>
+      rename(baseline_isco08 = dynamic_isco08)
 
-  message("Merging Baseline SOEP, ISCO-08 and C-AIOE ...")
-  soep <- soep_baseline |>
-    left_join(baseline_isco, by = "pid") |>
-    rename(isco08 = baseline_isco08) |>
-    filter(!is.na(isco08)) |>
-    ungroup()
-
+    message("Merging Baseline SOEP, ISCO-08 and C-AIOE ...")
+    soep <- soep_baseline |>
+      left_join(baseline_isco, by = "pid") |>
+      rename(isco08 = baseline_isco08) |>
+      filter(!is.na(isco08)) |>
+      ungroup()
+  } else {
+    soep <- soep |> filter(!is.na(isco08))
+  }
   soep |>
     left_join(load_caioe(), by = c("isco08" = "isco08")) |>
     filter(
       !is.na(log_wage)
     ) |>
+    # ── Construct Post indicator and all interaction terms ──────────────────────
     mutate(
       post = as.integer(syear > treatment_year),
       int_aioe_z = aioe_z * post,

@@ -1,4 +1,9 @@
+# ============================================================================ #
+# ---------------------------- SOEP SUMMARY TABLE ---------------------------- #
+# ============================================================================ #
+
 source("code/did_base.R")
+
 library(dplyr)
 library(tinytable)
 
@@ -11,11 +16,11 @@ tab <- data.frame(
     "Unique individuals",
     "Person-year observations",
     "Survey years",
-    "Age Range",
-    "Mean Age",
-    "Male Individuals",
-    "Mean Monthly gross wage in \\EUR{}",
-    "Mean Weekly working hours",
+    "Age range",
+    "Mean age",
+    "Male individuals",
+    "Mean monthly gross wage in \\EUR{}",
+    "Mean weekly working hours",
     "Full-time employment share"
 ),
   `Value (SD)` = c(

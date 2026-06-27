@@ -1,6 +1,6 @@
-# ════════════════════════════════════════════════════════════════════════════ #
-# TRIPLE DIFFERENCE-IN-DIFFERENCES ANALYSIS                                    #
-# ════════════════════════════════════════════════════════════════════════════ #
+# ============================================================================ #
+# ---------------- TRIPLE DIFFERENCE-IN-DIFFERENCES ANALYSIS ----------------- #
+# ============================================================================ #
 
 library(tidyverse)
 library(fixest)
@@ -12,7 +12,7 @@ source("code/did_base.R")
 console_output <- TRUE
 
 table_captions <- c(
-  "Difference-in-Differences: AI Exposure, Complementarity, and Log Wages",
+  "AI Exposure, Complementarity, and Log Wages",
   "Difference-in-Differences with ISCO-08 Fixed Effects",
   "Difference-in-Differences with Z-Standardized Exposure and Complementarity"
 )
@@ -56,14 +56,21 @@ independent_vars <- list(
 )
 
 table_label <- "tab:results"
-table_notes <- paste(
-  "Standard errors clustered at the ISCO-08 level.",
-  "Post = 1 for survey waves 2016 onward (treatment year: 2015).",
-  "AI Occupational Exposure (AIOE) follows \\cite{felten2021occupational}.",
-  "Low-Complementarity is a binary indicator for below-median AI complementarity.", # nolint
-  "The triple interaction term (AIOE $\\times$ Low-Comp $\\times$ Post) is the coefficient of interest ($\\hat{\\beta}_3$).", # nolint
-  "Main effects absorbed by individual fixed effects where time-invariant.",
-  sep = "\\\\\n"
+table_notes <- list(
+  paste(
+    "Standard errors clustered at the ISCO-08 level.",
+    "Post = 1 for survey waves 2016 onward (treatment year: 2015).",
+    "AI Occupational Exposure (AIOE) follows \\cite{felten2021occupational}.",
+    "Low-Complementarity is a binary indicator for below-median AI complementarity.", # nolint
+    "The triple interaction term (AIOE $\\times$ Low-Complementarity $\\times$ Post) is the coefficient of interest ($\\hat{\\beta}_3$).", # nolint
+    sep = "\\\\\n"
+  ), paste(
+    "Standard errors clustered at the ISCO-08 level.",
+    sep = "\\\\\n"
+  ), paste(
+    "Standard errors clustered at the ISCO-08 level.",
+    sep = "\\\\\n"
+  )
 )
 
 analysis <- load_did_data()
