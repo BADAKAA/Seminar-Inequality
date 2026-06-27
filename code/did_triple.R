@@ -63,7 +63,7 @@ table_notes <- list(
     "AI Occupational Exposure (AIOE) follows \\cite{felten2021occupational}.",
     "Low-Complementarity is a binary indicator for below-median AI complementarity.", # nolint
     "The triple interaction term (AIOE $\\times$ Low-Complementarity $\\times$ Post) is the coefficient of interest ($\\hat{\\beta}_3$).", # nolint
-    "Type of education (factor variable) omitted from the table for brevity", # nolint,
+    "Type of education (factor variable) omitted from the table for brevity.", # nolint,
     "Main effects absorbed by individual fixed effects where time-invariant.",
     sep = "\\\\\n"
   ), paste(
